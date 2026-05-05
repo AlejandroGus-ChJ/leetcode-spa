@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { Progress } from './Progress';
 import { ProgressVariant, ProgressMode } from './Progress.constants';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Progress> = {
   title: 'Components/Progress',

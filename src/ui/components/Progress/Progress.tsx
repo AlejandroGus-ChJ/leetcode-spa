@@ -1,9 +1,11 @@
-import React from 'react';
 import { LinearProgress, CircularProgress, Typography, Box } from '@mui/material';
-import type { ProgressProps } from './Progress.types'; // Añadimos 'type'
+import React from 'react';
+
 import { ProgressVariant, ProgressMode } from './Progress.constants';
-import { containerStyles, labelStyles } from './Progress.styles';
 import { useProgress } from './Progress.hook';
+import { containerStyles, labelStyles } from './Progress.styles';
+
+import type { ProgressProps } from './Progress.types'; // Añadimos 'type'
 
 export const Progress: React.FC<ProgressProps> = ({
   variant = ProgressVariant.LINEAR,
@@ -19,26 +21,23 @@ export const Progress: React.FC<ProgressProps> = ({
   const isDeterminate = mode === ProgressMode.DETERMINATE;
 
   return (
-    <Box 
-      sx={containerStyles}  
-      aria-valuenow={isDeterminate ? normalizedValue : undefined}
-    >
+    <Box sx={containerStyles} aria-valuenow={isDeterminate ? normalizedValue : undefined}>
       {isLinear ? (
         <Box sx={{ width: '100%' }}>
-          <LinearProgress 
-            variant={mode as any} // 'as any' evita conflictos de tipos de MUI
-            value={normalizedValue} 
+          <LinearProgress
+            variant={mode as 'determinate' | 'indeterminate'}
+            value={normalizedValue}
             color={color}
-            {...props} 
+            {...props}
           />
         </Box>
       ) : (
-        <CircularProgress 
-          variant={mode as any} 
-          value={normalizedValue} 
+        <CircularProgress
+          variant={mode as 'determinate' | 'indeterminate'}
+          value={normalizedValue}
           size={customSize}
           color={color}
-          {...props} 
+          {...props}
         />
       )}
 
