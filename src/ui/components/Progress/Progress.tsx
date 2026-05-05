@@ -1,33 +1,51 @@
 import React from 'react';
-import { Box, CircularProgress, LinearProgress, Typography } from '@mui/material';
-import { ProgressProps } from './Progress.types';
-import { PROGRESS_VARIANTS } from './Progress.constants';
+import { LinearProgress, CircularProgress, Typography, Box } from '@mui/material';
+import type { ProgressProps } from './Progress.types'; // Añadimos 'type'
+import { ProgressVariant, ProgressMode } from './Progress.constants';
 import { containerStyles, labelStyles } from './Progress.styles';
-import { formatProgressValue } from './Progress.utils';
+import { useProgress } from './Progress.hook';
 
 export const Progress: React.FC<ProgressProps> = ({
-  variant,
+  variant = ProgressVariant.LINEAR,
+  mode = ProgressMode.INDETERMINATE,
   value,
   showLabel = false,
   color = 'primary',
-  size,
+  customSize,
   ...props
 }) => {
-  const ariaAttr = { role: 'progressbar', 'aria-valuenow': value };
-
-  if (variant === PROGRESS_VARIANTS.CIRCULAR) {
-    return <CircularProgress {...ariaAttr} variant={value ? 'determinate' : 'indeterminate'} value={value} color={color} size={size} {...props} />;
-  }
+  const { normalizedValue } = useProgress(value);
+  const isLinear = variant === ProgressVariant.LINEAR;
+  const isDeterminate = mode === ProgressMode.DETERMINATE;
 
   return (
-    <Box sx={containerStyles}>
-      <Box sx={{ width: '100%', mr: 1 }}>
-        <LinearProgress {...ariaAttr} variant={value ? 'determinate' : 'indeterminate'} value={value} color={color} {...props} />
-      </Box>
-      {showLabel && value !== undefined && (
-        <Box sx={labelStyles}>
-          <Typography variant="body2" color="text.secondary">{formatProgressValue(value)}</Typography>
+    <Box 
+      sx={containerStyles}  
+      aria-valuenow={isDeterminate ? normalizedValue : undefined}
+    >
+      {isLinear ? (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress 
+            variant={mode as any} // 'as any' evita conflictos de tipos de MUI
+            value={normalizedValue} 
+            color={color}
+            {...props} 
+          />
         </Box>
+      ) : (
+        <CircularProgress 
+          variant={mode as any} 
+          value={normalizedValue} 
+          size={customSize}
+          color={color}
+          {...props} 
+        />
+      )}
+
+      {isLinear && isDeterminate && showLabel && (
+        <Typography variant="body2" color="text.secondary" sx={labelStyles}>
+          {`${Math.round(normalizedValue)}%`}
+        </Typography>
       )}
     </Box>
   );
