@@ -1,9 +1,10 @@
-import type { SxProps, Theme } from '@mui/material';
-import type { LinearProgressProps } from '@mui/material/LinearProgress';
-import type { CircularProgressProps } from '@mui/material/CircularProgress';
+// Añadimos la palabra 'type' aquí
+import type { LinearProgressProps, CircularProgressProps } from '@mui/material';
+import { ProgressVariant, ProgressMode } from './Progress.constants';
 
-export interface ProgressProps extends Partial<LinearProgressProps & CircularProgressProps> {
-  variant: 'linear' | 'circular';
+export interface ProgressProps extends Omit<LinearProgressProps & CircularProgressProps, 'variant'> {
+  variant?: ProgressVariant;
+  mode?: ProgressMode;
   showLabel?: boolean;
-  size?: number | string;
+  customSize?: number;
 }

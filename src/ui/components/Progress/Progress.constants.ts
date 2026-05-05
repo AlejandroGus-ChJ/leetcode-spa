@@ -1,9 +1,9 @@
-export const PROGRESS_VARIANTS = {
-  LINEAR: 'linear',
-  CIRCULAR: 'circular',
-} as const;
+export enum ProgressVariant {
+  LINEAR = 'linear',
+  CIRCULAR = 'circular',
+}
 
-export const PROGRESS_MODES = {
-  DETERMINATE: 'determinate',
-  INDETERMINATE: 'indeterminate',
-} as const;
+export enum ProgressMode {
+  DETERMINATE = 'determinate',
+  INDETERMINATE = 'indeterminate',
+}

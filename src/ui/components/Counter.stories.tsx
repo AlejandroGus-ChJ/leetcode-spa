@@ -1,27 +1,26 @@
-import Counter from './Counter';
+import React from 'react';
+// Importamos el componente
+import { Progress } from './Progress/Progress';
+// Importamos las constantes para que TypeScript no marque error
+import { ProgressVariant, ProgressMode } from './Progress/Progress.constants';
 
-import type { Meta, StoryObj } from '@storybook/react';
-
-const meta = {
-  title: 'UI/Counter',
-  component: Counter,
-  parameters: {
-    layout: 'centered',
-  },
-  tags: ['autodocs'],
-} satisfies Meta<typeof Counter>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {};
-
-export const WithCustomStyling: Story = {
-  decorators: [
-    (Story) => (
-      <div style={{ padding: '2rem', backgroundColor: '#f0f0f0', borderRadius: '8px' }}>
-        <Story />
-      </div>
-    ),
-  ],
+export default {
+  title: 'Components/Progress',
+  component: Progress,
 };
+
+export const LinearDeterminate = () => (
+  <Progress 
+    variant={ProgressVariant.LINEAR} 
+    mode={ProgressMode.DETERMINATE} 
+    value={70} 
+    showLabel={true} 
+  />
+);
+
+export const CircularIndeterminate = () => (
+  <Progress 
+    variant={ProgressVariant.CIRCULAR} 
+    mode={ProgressMode.INDETERMINATE} 
+  />
+);
