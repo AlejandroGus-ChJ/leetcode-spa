@@ -1,4 +1,5 @@
 import React from 'react';
+
 // Importamos el componente
 import { Progress } from './Progress/Progress';
 // Importamos las constantes para que TypeScript no marque error
@@ -10,17 +11,14 @@ export default {
 };
 
 export const LinearDeterminate = () => (
-  <Progress 
-    variant={ProgressVariant.LINEAR} 
-    mode={ProgressMode.DETERMINATE} 
-    value={70} 
-    showLabel={true} 
+  <Progress
+    variant={ProgressVariant.LINEAR}
+    mode={ProgressMode.DETERMINATE}
+    value={70}
+    showLabel={true}
   />
 );
 
 export const CircularIndeterminate = () => (
-  <Progress 
-    variant={ProgressVariant.CIRCULAR} 
-    mode={ProgressMode.INDETERMINATE} 
-  />
+  <Progress variant={ProgressVariant.CIRCULAR} mode={ProgressMode.INDETERMINATE} />
 );
