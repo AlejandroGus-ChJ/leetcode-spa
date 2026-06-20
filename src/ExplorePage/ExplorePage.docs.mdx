@@ -8,6 +8,7 @@ import * as ExplorePageStories from './ExplorePage.stories';
 The `ExplorePage` component allows users to browse and filter coding interview topics by category and difficulty level. It features interactive metrics cards, live filtering mechanisms, and visual progress tracking.
 
 ## Criterias Included
+
 - Full responsive layouts (from mobile viewpoints up to large desktops).
 - Mapped difficulty tag indicators (`success`, `warning`, `error`).
 - Skeleton loaders for pending asynchronous states.
@@ -15,17 +16,25 @@ The `ExplorePage` component allows users to browse and filter coding interview t
 ## Stories
 
 ### Default View
+
 Initial view showing all available topics and loaded global user statistics.
+
 <Canvas of={ExplorePageStories.Predeterminado} />
 
 ### Filtered View
+
 Component state when a specific technical category is selected.
+
 <Canvas of={ExplorePageStories.FiltradoPorCategoría} />
 
 ### Empty State
+
 Fallback layout displayed when no tracks match the selected filters.
+
 <Canvas of={ExplorePageStories.EstadoVacío} />
 
 ### Loading State
+
 Skeleton preview layout visible while fetching remote system resources.
+
 <Canvas of={ExplorePageStories.EstadoCargando} />

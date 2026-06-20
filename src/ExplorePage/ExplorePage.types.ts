@@ -1,26 +1,32 @@
 export type DifficultyType = 'beginner' | 'intermediate' | 'advanced';
 
+export type DifficultyFilter = DifficultyType | 'All';
+
 export interface ExploreTopic {
-    id: string;
-    title: string;
-    description: string;
-    icon: string; // Internal icon identifier (e.g., 'MenuBook', 'TrendingUp')
-    category: string;
-    difficulty: DifficultyType;
-    problemsSolved: number;
-    totalProblems: number;
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  category: string;
+  difficulty: DifficultyType;
+  problemsSolved: number;
+  totalProblems: number;
+}
+
+export interface ExplorePageStats {
+  topicsAvailable: number;
+  problemsSolved: number;
+  overallProgress: number;
 }
 
 export interface ExplorePageHook {
-    selectedCategory: string;
-    setSelectedCategory: (category: string) => void;
-    selectedDifficulty: string;
-    setSelectedDifficulty: (difficulty: string) => void;
-    filteredTopics: ExploreTopic[];
-    isLoading: boolean;
-    stats: {
-        topicsAvailable: number;
-        problemsSolved: number;
-        overallProgress: number;
-    };
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
+
+  selectedDifficulty: DifficultyFilter;
+  setSelectedDifficulty: (difficulty: DifficultyFilter) => void;
+
+  filteredTopics: ExploreTopic[];
+  isLoading: boolean;
+  stats: ExplorePageStats;
 }

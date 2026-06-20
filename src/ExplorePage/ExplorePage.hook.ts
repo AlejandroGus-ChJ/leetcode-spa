@@ -1,54 +1,56 @@
 import { useState, useEffect, useMemo } from 'react';
-import { type ExplorePageHook } from './ExplorePage.types';
+
 import { MOCK_EXPLORE_TOPICS } from './ExplorePage.constants';
+import { type ExplorePageHook, type DifficultyFilter } from './ExplorePage.types';
 import { getProgressPercent } from './ExplorePage.utils';
 
 export const useExplorePage = (): ExplorePageHook => {
-    const [selectedCategory, setSelectedCategory] = useState<string>('All');
-    const [selectedDifficulty, setSelectedDifficulty] = useState<string>('All');
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 1200);
-        return () => clearTimeout(timer);
-    }, []);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyFilter>('All');
 
-    const filteredTopics = useMemo(() => {
-        return MOCK_EXPLORE_TOPICS.filter((topic) => {
-            const matchesCategory = selectedCategory === 'All' || topic.category === selectedCategory;
-            const matchesDifficulty = selectedDifficulty === 'All' || topic.difficulty === selectedDifficulty;
-            return matchesCategory && matchesDifficulty;
-        });
-    }, [selectedCategory, selectedDifficulty]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const stats = useMemo(() => {
-        const topicsAvailable = MOCK_EXPLORE_TOPICS.length;
-        let totalProblems = 0;
-        let totalSolved = 0;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1200);
 
-        MOCK_EXPLORE_TOPICS.forEach((topic) => {
-            totalProblems += topic.totalProblems;
-            totalSolved += topic.problemsSolved;
-        });
+    return () => clearTimeout(timer);
+  }, []);
 
-        const overallProgress = getProgressPercent(totalSolved, totalProblems);
+  const filteredTopics = useMemo(() => {
+    return MOCK_EXPLORE_TOPICS.filter((topic) => {
+      const matchesCategory = selectedCategory === 'All' || topic.category === selectedCategory;
 
-        return {
-            topicsAvailable,
-            problemsSolved: totalSolved,
-            overallProgress: Math.round(overallProgress),
-        };
-    }, []);
+      const matchesDifficulty =
+        selectedDifficulty === 'All' || topic.difficulty === selectedDifficulty;
+
+      return matchesCategory && matchesDifficulty;
+    });
+  }, [selectedCategory, selectedDifficulty]);
+
+  const stats = useMemo(() => {
+    const topicsAvailable = MOCK_EXPLORE_TOPICS.length;
+
+    const totalProblems = MOCK_EXPLORE_TOPICS.reduce((acc, topic) => acc + topic.totalProblems, 0);
+
+    const totalSolved = MOCK_EXPLORE_TOPICS.reduce((acc, topic) => acc + topic.problemsSolved, 0);
 
     return {
-        selectedCategory,
-        setSelectedCategory,
-        selectedDifficulty,
-        setSelectedDifficulty,
-        filteredTopics,
-        isLoading,
-        stats,
+      topicsAvailable,
+      problemsSolved: totalSolved,
+      overallProgress: Math.round(getProgressPercent(totalSolved, totalProblems)),
     };
+  }, []);
+
+  return {
+    selectedCategory,
+    setSelectedCategory,
+    selectedDifficulty,
+    setSelectedDifficulty,
+    filteredTopics,
+    isLoading,
+    stats,
+  };
 };
